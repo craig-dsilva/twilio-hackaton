@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const app = express();
+const VoiceResponse = require("twilio").twiml.VoiceResponse;
 
 app.use(cors({}));
 
@@ -17,7 +18,11 @@ app.get("/", (req, res, next) => {
 
 app.get("/ring", (req, res) => {
   isAtDoor = true;
-  res.send("OK");
+  res.type("xml");
+
+  const twiml = new VoiceResponse();
+  twiml.say("Welcome to CYF");
+  res.send(twiml.toString());
 });
 
 const PORT = process.env.PORT || 5000;
