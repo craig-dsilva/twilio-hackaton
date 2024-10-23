@@ -1,19 +1,27 @@
-const http = require("http");
 const express = require("express");
+const cors = require("cors");
 const app = express();
-const path = require("path");
-const webSocket = require("ws");
 
-const server = http.createServer(app);
+app.use(cors({}));
 
-const wss = new webSocket.Server({ server });
+let isAtDoor = false;
 
-wss.on("connection", (ws) => {
-  console.log("Connection established");
+app.get("/", (req, res, next) => {
+  if (isAtDoor) {
+    res.json({ status: isAtDoor });
+    setTimeout(() => {
+      isAtDoor = false;
+    }, 5000);
+  }
+});
+
+app.get("/ring", (req, res) => {
+  isAtDoor = true;
+  res.send("OK");
 });
 
 const PORT = process.env.PORT || 5000;
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
