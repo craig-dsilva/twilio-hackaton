@@ -1,0 +1,11 @@
+* {
+  font-size: 50px;
+}
+
+.door-status-false {
+  background-color: rgb(237, 67, 67);
+}
+
+.door-status-true {
+  background-color: orange;
+}
